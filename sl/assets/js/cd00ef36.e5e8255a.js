@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunklaguna_docs=self.webpackChunklaguna_docs||[]).push([[3173],{9221:s=>{s.exports=JSON.parse('{"label":"docusaurus","permalink":"/sl/blog/tags/docusaurus","allTagsPath":"/sl/blog/tags","count":4}')}}]);
