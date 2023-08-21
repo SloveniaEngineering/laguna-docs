@@ -84,6 +84,20 @@ const config = {
             label: 'GitHub',
             position: 'right',
           },
+          {
+            type: 'localeDropdown',
+            position: 'right',
+            items: [
+              {
+                to: '/',
+                label: 'English',
+              },
+              {
+                to: '/sl/',
+                label: 'Slovenščina',
+              },
+            ]
+          },
         ],
       },
       prism: {
