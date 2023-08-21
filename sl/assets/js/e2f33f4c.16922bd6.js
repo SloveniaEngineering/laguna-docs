@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunklaguna_docs=self.webpackChunklaguna_docs||[]).push([[4244],{5070:a=>{a.exports=JSON.parse('{"label":"hola","permalink":"/sl/blog/tags/hola","allTagsPath":"/sl/blog/tags","count":1}')}}]);

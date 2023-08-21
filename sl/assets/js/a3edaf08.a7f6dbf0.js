@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunklaguna_docs=self.webpackChunklaguna_docs||[]).push([[7299],{5510:a=>{a.exports=JSON.parse('{"permalink":"/laguna-docs/sl/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":4,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);

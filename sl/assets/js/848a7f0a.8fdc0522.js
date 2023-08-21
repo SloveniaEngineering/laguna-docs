@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunklaguna_docs=self.webpackChunklaguna_docs||[]).push([[2722],{6098:a=>{a.exports=JSON.parse('{"permalink":"/sl/blog/tags/facebook","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);
