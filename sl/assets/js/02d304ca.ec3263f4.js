@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunklaguna_docs=self.webpackChunklaguna_docs||[]).push([[7252],{76233:a=>{a.exports=JSON.parse('{"name":"docusaurus-plugin-openapi","id":"default"}')}}]);
