@@ -70,7 +70,7 @@ const config = {
         },
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
-          routeBasePath: "/",
+          routeBasePath: "/docs",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
