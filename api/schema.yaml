@@ -1,0 +1,771 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0-alpha
+  title: Laguna API
+  description: API to interact with [laguna-backend](https://github.com/SloveniaEngineering/laguna-backend) and all services connected to it.
+servers:
+  - url: http://127.0.0.1:6969
+
+# Add JWT security to all endpoints except login and register
+components:
+  securitySchemes:
+    jwtAccessToken:
+      type: apiKey
+      in: header
+      name: X-Access-Token
+    jwtRefreshToken:
+      type: apiKey
+      in: header
+      name: X-Refresh-Token
+  schemas:
+    AppInfoDTO:
+      type: object
+      properties:
+        version:
+          type: string
+        authors:
+          type: array
+          items:
+            type: string
+        license:
+          type: string
+        description:
+          type: string
+        repository:
+          type: string
+      required:
+        - version
+        - authors
+        - license
+        - description
+        - repository
+    RegisterDTO:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 5
+          maxLength: 50
+        username:
+          type: string
+          minLength: 6
+          maxLength: 30
+        password:
+          type: string
+          format: password
+          minLength: 6
+          maxLength: 100
+    LoginDTO:
+      type: object
+      properties:
+        username_or_email:
+          type: string
+          minLength: 5
+          maxLength: 50
+        password:
+          type: string
+          format: password
+          minLength: 6
+          maxLength: 100
+      required:
+        - email
+        - username
+        - password
+    AlreadyExistsDTO:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Uporabnik s tem uporabniškim imenom, elektronskim naslovom že obstaja."
+        recommended_usernames:
+          type: array
+          items:
+            type: string
+          example: ["user123", "user1234", "user12345"]
+    UserDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        username:
+          type: string
+        first_login:
+          type: string
+          format: datetime
+        last_login:
+          type: string
+          format: datetime
+        avatar_url:
+          type: string
+          format: url
+        role:
+          type: string
+          enum: [
+            Normie,
+            Verified,
+            Mod,
+            Admin
+          ]
+        behaviour:
+          type: string
+          enum: [
+            Lurker,
+            Downloader,
+            Freeleecher,
+            Leech,
+            Seed,
+            Choked,
+            Uploader
+          ]
+        is_active:
+          type: boolean
+        has_verified_email:
+          type: boolean
+        is_history_private:
+          type: boolean
+        is_profile_private:
+          type: boolean
+        required:
+          - id
+          - username
+          - first_login
+          - last_login
+          - avatar_url
+          - role
+          - behaviour
+          # - is_active
+          - has_verified_email
+          - is_history_private
+          - is_profile_private
+    UserPatchDTO:
+      type: object
+      properties:
+        avatar_url:
+          type: string
+          format: url
+        is_history_private:
+          type: boolean
+        is_profile_private:
+          type: boolean
+        required:
+          - is_history_private
+          - is_profile_private
+    PeerDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          length: 40 # sha1
+        md5_hash:
+          type: string
+          length: 32 # md5
+        info_hash:
+          type: string
+          length: 40 # sha1
+        ip:
+          type: string
+          format: ip
+        port:
+          type: integer
+          format: int32
+        agent:
+          type: string
+        uploaded_bytes:
+          type: integer
+          format: int64
+        downloaded_bytes:
+          type: integer
+          format: int64
+        left_bytes:
+          type: integer
+          format: int64
+        behaviour:
+          type: string
+          enum: [
+            Lurker,
+            Downloader,
+            Freeleecher,
+            Leech,
+            Seed,
+            Choked,
+            Uploader
+          ]
+        created_at:
+          type: string
+          format: datetime
+        updated_at:
+          type: string
+          format: datetime
+        user_id:
+          type: string
+          format: uuid
+        required:
+          - id
+          - info_hash
+          - port
+          - downloaded_bytes
+          - uploaded_bytes
+          - left_bytes
+          - behaviour
+          - created_at
+          - user_id
+
+    TorrentDTO:
+      type: object
+      properties:
+        info_hash:
+          type: string
+          length: 40 # sha1
+        announce_url:
+          type: string
+          format: url,
+        length:
+          type: integer
+          format: int64
+        title:
+          type: string
+          minLength: 5
+          maxLength: 100
+        file_name:
+          type: string
+          minLength: 5
+          maxLength: 100
+        nfo:
+          type: string
+        leech_count:
+          type: integer
+          format: int64
+        seed_count:
+          type: integer
+          format: int64
+        completed_count:
+          type: integer
+          format: int64
+        speedlevel:
+          type: string
+          enum: [
+            Lowspeed,
+            Mediumspeed,
+            Highspeed,
+          ]
+        uploaded_at:
+          type: string
+          format: datetime
+        uplodaded_by:
+          type: string
+          format: uuid
+        modded_at:
+          type: string
+          format: datetime
+        modded_by:
+          type: string
+          format: uuid
+        required:
+          - info_hash
+          - announce_url
+          - length
+          - title
+          - file_name
+          - leech_count
+          - seed_count
+          - completed_count
+          - speedlevel
+          - uploaded_at
+          - uploaded_by
+
+    TorrentPatchDTO:
+      type: object
+      properties:
+        info_hash:
+          type: string
+          length: 40 # sha1
+        title:
+          type: string
+          minLength: 5
+          maxLength: 100
+        file_name:
+          type: string
+          minLength: 5
+          maxLength: 100
+        nfo:
+          type: string
+        required:
+          - info_hash
+          - title
+          - file_name
+
+    TorrentPutDTO:
+      type: object
+      properties:
+        announce:
+          type: string
+          format: url,
+        announce-list:
+          type: array
+          items:
+            type: string
+            format: url,
+        title:
+          type: string
+          minLength: 5
+          maxLength: 100
+        nfo:
+          type: string
+        speedlevel:
+          type: string
+          enum: [
+            Lowspeed,
+            Mediumspeed,
+            Highspeed,
+          ]
+        comment:
+          type: string
+        encoding:
+          type: string
+        creation date:
+          type: string
+          format: datetime
+        created by:
+          type: string
+        info:
+          type: object
+          properties:
+            file-duration:
+              type: array
+              items:
+                type: integer
+                format: int32
+            file-media:
+              type: array
+              items:
+                type: int32
+            length: 
+              type: integer
+              format: int32
+            name:
+              type: string
+            piece length:
+              type: integer
+              format: int32
+            pieces:
+              type: array
+              items:
+                type: byte
+            root_hash:
+              type: string
+            private:
+              type: byte
+            files:
+              type: array
+              items:
+                type: object
+                properties:
+                  length:
+                    type: integer
+                    format: int32
+                  path:
+                    type: array
+                    items:
+                      type: string
+                  md5sum:
+                    type: string
+                  required:
+                    - length
+                    - path
+                    - md5sum
+            profiles:
+              type: array
+              items:
+                type: object
+                properties:
+                  acodec:
+                    type: string
+                  height:
+                    type: integer
+                    format: int32
+                  vcodec:
+                    type: string
+                  width:
+                    type: integer
+                    format: int32
+        url-list:
+          type: array
+          items:
+            type: string
+            format: url
+        website:
+          type: string
+          format: url
+        nodes:
+          type: array
+          items:
+            type: object
+            properties:
+              node:
+                type: string
+                format: url
+              node-id:
+                type: integer
+                format: int32
+              required:
+                - node
+                - node-id
+
+security:
+  - jwtAccessToken: []
+    jwtRefreshToken: []
+
+paths:
+  /api/user/auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login
+      security: []
+      description: Login into Laguna
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginDTO'
+      responses:
+        '200':
+          description: Login successful
+          header:
+            X-Access-Token:
+              description: Access token
+              schema:
+                type: string
+            X-Refresh-Token:
+              description: Refresh token
+              schema:
+                type: string
+        '400':
+          description: Bad format of DTO
+        '401':
+          description: Wrong credentials or unregistered user
+
+  /api/user/auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Registration
+      security: []
+      description: Register into Laguna
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterDTO'
+      responses:
+        '200':
+          description: Registration successful
+        '208':
+          description: User already exists
+        '400':
+          description: Bad format of DTO
+        
+
+  /api/misc/:
+    get:
+      tags:
+        - Misc
+      summary: App Information
+      security: []
+      description: Get app information
+      responses:
+        '200':
+          description: App informations retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppInfoDTO' 
+
+  /api/misc/healthcheck:
+    get:
+      tags:
+        - Misc
+      summary: Healthcheck
+      security: []
+      description: Check if API is running
+      responses:
+        '200':
+          description: API is running
+        else:
+          description: API is not running properly
+
+  /api/user/me:
+    get:
+      tags:
+        - User
+      summary: Get current user
+      description: Get current user
+      responses:
+        '200':
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+        '401':
+          description: Uporabnik ni prijavljen
+
+    delete:
+      tags:
+        - User
+      summary: Delete my account
+      description: Delete my account
+      responses:
+        '200':
+          description: User deleted
+        '400':
+          description: User not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Zahtevan uporabnik ne obstaja."
+        '401':
+          description: Unauthorized
+
+  /api/user/{id}:
+    get:
+      tags:
+        - User
+      summary: Get user by id
+      description: Get user by id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: User id
+      responses:
+        '200':
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+        '400':
+          description: User not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Zahtevan uporabnik ne obstaja."
+        '401':
+          description: Unauthorized
+    
+    patch:
+      tags:
+        - User
+      summary: Update user by id
+      description: Update user by id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: User id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPatchDTO'        
+
+  /api/user/{id}/peers:
+    get:
+      tags:
+        - User
+      summary: Get user peers
+      description: Get user peers
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: User id
+      responses:
+        '200':
+          description: Peers found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PeerDTO'
+        '400':
+          description: User not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Zahtevan uporabnik ne obstaja."
+        '401':
+          description: Unauthorized
+
+  /api/torrent/{info_hash}:
+    get:
+      tags:
+        - Torrent
+      summary: Get torrent by info_hash
+      description: Get torrent by info_hash
+      parameters:
+        - in: path
+          name: info_hash
+          schema:
+            type: string
+            length: 40 # sha1
+          required: true
+          description: Torrent info_hash
+      responses:
+        '200':
+          description: Torrent found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TorrentDTO'
+        '400':
+          description: Torrent not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Torrent ne obstaja."
+        '401':
+          description: Unauthorized
+      
+    patch:
+      tags:
+        - Torrent
+      summary: Update torrent by info_hash
+      description: Update torrent by info_hash
+      parameters:
+        - in: path
+          name: info_hash
+          schema:
+            type: string
+            length: 40 # sha1
+          required: true
+          description: Torrent info_hash
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TorrentPatchDTO'
+      responses:
+        '200':
+          description: Torrent updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TorrentDTO'
+        '400':
+          description: Torrent not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Torrent ne obstaja."
+        '401':
+          description: Unauthorized
+
+  /api/torrent:
+    put:
+      # We dont actually put TorrentPutDTO, but rather just a file
+      tags:
+        - Torrent
+      summary: Upload torrent
+      description: Upload torrent
+      requestBody:
+        content:
+          application/x-bittorrent:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Torrent uploaded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TorrentDTO'
+        '400':
+          description: Torrent not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Torrent ne obstaja."
+        '401':
+          description: Unauthorized
+  /api/peer/announce: # {?info_hash}#&peer_id={peer_id}&ip={ip}&port={port}&uploaded={uploaded}&downloaded={downloaded}&left={left}&event={event}&numwant={numwant}&compact={compact}&no_peer_id={no_peer_id}&key={key}&trackerid={trackerid}:
+    get:
+      tags:
+        - Peer
+      summary: Announce
+      description: Announce
+       # parameters:
+       #  - in: query
+       #    info_hash:
+       #      type: string
+       #      length: 40 # sha1
+       # - in: query
+       #   peer_id:
+       #     type: string
+       #     length: 40 # sha1
+       # - in: query
+       #   ip:
+       #     type: string
+       #     format: ip
+       # - in: query
+       #   port:
+       #     type: integer
+       #     format: int32
+       # - in: query
+       #   uploaded:
+       #     type: integer
+       #     format: int64
+       # - in: query
+       #   downloaded:
+       #     type: integer
+       #     format: int64
+       # - in: query
+       #   left:
+       #     type: integer
+       #     format: int64
+       #   required: true
+       # - in: query
+       #   event:
+       #     type: string
+       #     enum: [
+       #       started,
+       #       completed,
+       #       stopped,
+       #       updated
+       #     ]
+       # - in: query
+       #   numwant:
+       #     type: integer
+       #     format: int32
+       # - in: query
+       #   compact:
+       #     type: boolean
+       # - in: query
+       #   no_peer_id:
+       #     type: boolean
+       # - in: query
+       #   key:
+       #     type: string
+       # - in: query
+       #   trackerid:
+       #     type: string
