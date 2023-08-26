@@ -103,11 +103,6 @@ const config = {
             label: "Docs",
           },
           {
-            to: "/blog",
-            label: "Blog",
-            position: "left",
-          },
-          {
             href: "https://github.com/SloveniaEngineering/laguna-docs",
             label: "GitHub",
             position: "right",
