@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunklaguna_docs=self.webpackChunklaguna_docs||[]).push([[755],{85278:a=>{a.exports=JSON.parse('{"label":"facebook","permalink":"/laguna-docs/blog/tags/facebook","allTagsPath":"/laguna-docs/blog/tags","count":1}')}}]);
