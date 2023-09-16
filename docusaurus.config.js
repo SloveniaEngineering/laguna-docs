@@ -65,7 +65,7 @@ const config = {
       /** @type {import('docusaurus-preset-openapi').Options} */
       {
         api: {
-          path: "api/schema.yaml",
+          path: "api/schema.json",
           routeBasePath: "/api",
         },
         docs: {
@@ -92,9 +92,9 @@ const config = {
         },
         items: [
           {
-            to: '/api',
-            label: 'API',
-            position: 'left',
+            to: "/api",
+            label: "API",
+            position: "left",
           },
           {
             type: "docSidebar",

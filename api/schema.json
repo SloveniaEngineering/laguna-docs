@@ -1,0 +1,1378 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Laguna API",
+        "description": "API documentation",
+        "license": {
+            "name": "Apache-2.0"
+        },
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/api/misc/appinfo": {
+            "get": {
+                "tags": [
+                    "meta"
+                ],
+                "operationId": "get_app_info",
+                "responses": {
+                    "200": {
+                        "description": "Returns app info.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AppInfoDTO"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/misc/healthcheck": {
+            "get": {
+                "tags": [
+                    "meta"
+                ],
+                "operationId": "healthcheck",
+                "responses": {
+                    "200": {
+                        "description": "Returns healthcheck."
+                    }
+                }
+            }
+        },
+        "/api/torrent": {
+            "put": {
+                "tags": [
+                    "torrent"
+                ],
+                "operationId": "torrent_put",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TorrentPutDTO"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Returns created torrent.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Torrent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Torrent not found.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not logged in, hence unauthorized.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/torrent/rating": {
+            "post": {
+                "tags": [
+                    "rating"
+                ],
+                "operationId": "rating_create",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RatingDTO"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Rating created."
+                    },
+                    "400": {
+                        "description": "Rating already exists."
+                    },
+                    "401": {
+                        "description": "Not logged in, hence unauthorized."
+                    }
+                }
+            }
+        },
+        "/api/torrent/rating/{info_hash}": {
+            "get": {
+                "tags": [
+                    "rating"
+                ],
+                "operationId": "rating_torrent_average",
+                "responses": {
+                    "200": {
+                        "description": "Rating for torrent.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TorrentRating"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not logged in, hence unauthorized."
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "rating"
+                ],
+                "operationId": "rating_delete",
+                "responses": {
+                    "200": {
+                        "description": "Rating deleted."
+                    },
+                    "401": {
+                        "description": "Not logged in, hence unauthorized."
+                    }
+                }
+            }
+        },
+        "/api/torrent/{info_hash}": {
+            "get": {
+                "tags": [
+                    "torrent"
+                ],
+                "operationId": "torrent_get",
+                "responses": {
+                    "200": {
+                        "description": "Returns torrent.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Torrent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Torrent not found.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not logged in, hence unauthorized.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "torrent"
+                ],
+                "operationId": "torrent_delete",
+                "responses": {
+                    "200": {
+                        "description": "Returns deleted torrent.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Torrent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Torrent not found.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not logged in, hence unauthorized.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "torrent"
+                ],
+                "operationId": "torrent_patch",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TorrentPatchDTO"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Returns updated torrent.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Torrent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Torrent not found.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not logged in, hence unauthorized.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/torrent/{info_hash}/swarm": {
+            "get": {
+                "tags": [
+                    "torrent"
+                ],
+                "operationId": "torrent_swarm",
+                "responses": {
+                    "200": {
+                        "description": "Returns torrent swarm.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Peer"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Torrent not found.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not logged in, hence unauthorized.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/auth/login": {
+            "post": {
+                "tags": [
+                    "login"
+                ],
+                "operationId": "login",
+                "requestBody": {
+                    "description": "",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginDTO"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "User logged in successfully.",
+                        "headers": {
+                            "X-Access-Token": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "description": "Access token."
+                            },
+                            "X-Refresh-Token": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "description": "Refresh token."
+                            }
+                        },
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserDTO"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid credentials.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/auth/register": {
+            "post": {
+                "tags": [
+                    "register"
+                ],
+                "operationId": "register",
+                "requestBody": {
+                    "description": "",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterDTO"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "User registered successfully."
+                    },
+                    "208": {
+                        "description": "User already exists.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AlreadyExistsDTO"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/me": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "operationId": "user_me_get",
+                "responses": {
+                    "200": {
+                        "description": "Returns current user.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserDTO"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not logged in, hence unauthorized.",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "user"
+                ],
+                "operationId": "user_patch_me",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserPatchDTO"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Returns updated user.",
+                        "headers": {
+                            "X-Access-Token": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "description": "New access token."
+                            },
+                            "X-Refresh-Token": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "description": "New refresh token."
+                            }
+                        },
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserDTO"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "User not found.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not logged in, hence unauthorized.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/{id}": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "operationId": "user_get",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User's id.",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns user.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserDTO"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "User not found.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not logged in, hence unauthorized.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "user"
+                ],
+                "operationId": "user_me_delete",
+                "responses": {
+                    "200": {
+                        "description": "Delete successful"
+                    },
+                    "400": {
+                        "description": "User not found.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not logged in, hence unauthorized.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "user"
+                ],
+                "operationId": "user_patch",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User's id.",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserPatchDTO"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Returns updated user.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserDTO"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "User not found.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not logged in, hence unauthorized.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/{id}/torrents": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "operationId": "user_torrents_get",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User's id.",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns user's torrents.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Torrent"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "User not found.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not logged in, hence unauthorized.",
+                        "content": {
+                            "application/vnd.sloveniaengineering.laguna.0.1.0+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/peer/announce": {
+            "get": {
+                "tags": [
+                    "peer"
+                ],
+                "operationId": "peer_announce",
+                "responses": {
+                    "200": {
+                        "description": "Returns bencoded `AnnounceReply`",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AlreadyExistsDTO": {
+                "type": "object",
+                "required": [
+                    "message",
+                    "recommended_usernames"
+                ],
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "recommended_usernames": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "Announce": {
+                "type": "object",
+                "required": [
+                    "info_hash",
+                    "peer_id",
+                    "port",
+                    "uploaded",
+                    "downloaded",
+                    "left"
+                ],
+                "properties": {
+                    "compact": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "downloaded": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "event": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/AnnounceEvent"
+                            }
+                        ],
+                        "nullable": true
+                    },
+                    "info_hash": {
+                        "$ref": "#/components/schemas/InfoHash"
+                    },
+                    "ip": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/IpAddr"
+                            }
+                        ],
+                        "nullable": true
+                    },
+                    "key": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "left": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "no_peer_id": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "numwant": {
+                        "type": "integer",
+                        "format": "int64",
+                        "nullable": true
+                    },
+                    "peer_id": {
+                        "$ref": "#/components/schemas/PeerId"
+                    },
+                    "port": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 0
+                    },
+                    "redundant": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "supportcrypto": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "trackerid": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "uploaded": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "AnnounceEvent": {
+                "type": "string",
+                "enum": [
+                    "started",
+                    "stopped",
+                    "completed",
+                    "updated",
+                    "paused",
+                    "empty"
+                ]
+            },
+            "AnnounceReply": {
+                "type": "object",
+                "required": [
+                    "interval",
+                    "complete",
+                    "incomplete",
+                    "peers"
+                ],
+                "properties": {
+                    "complete": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 0
+                    },
+                    "failure reason": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "incomplete": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 0
+                    },
+                    "interval": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 0
+                    },
+                    "min interval": {
+                        "type": "integer",
+                        "format": "int64",
+                        "nullable": true,
+                        "minimum": 0
+                    },
+                    "peers": {
+                        "$ref": "#/components/schemas/PeerStream"
+                    },
+                    "tracker id": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "warning message": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
+            },
+            "AppInfoDTO": {
+                "type": "object",
+                "required": [
+                    "version",
+                    "authors",
+                    "license",
+                    "description",
+                    "repository"
+                ],
+                "properties": {
+                    "authors": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "license": {
+                        "type": "string"
+                    },
+                    "repository": {
+                        "type": "string"
+                    },
+                    "version": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Behaviour": {
+                "type": "string",
+                "enum": [
+                    "Lurker",
+                    "Downloader",
+                    "Freeleecher",
+                    "Leech",
+                    "Seed",
+                    "Choked",
+                    "Uploader",
+                    "Stopped"
+                ]
+            },
+            "Genre": {
+                "type": "string",
+                "enum": [
+                    "Action",
+                    "Adventure",
+                    "Animation",
+                    "Biography",
+                    "Comedy",
+                    "Crime",
+                    "Documentary",
+                    "Drama",
+                    "Family",
+                    "Fantasy",
+                    "FilmNoir",
+                    "GameShow",
+                    "History",
+                    "Horror",
+                    "Musical",
+                    "Mystery",
+                    "News",
+                    "RealityTV",
+                    "Romance",
+                    "SciFi",
+                    "Short",
+                    "Sport",
+                    "TalkShow",
+                    "Thriller",
+                    "War",
+                    "Western"
+                ]
+            },
+            "InfoHash": {
+                "type": "string",
+                "format": "binary"
+            },
+            "LoginDTO": {
+                "type": "object",
+                "required": [
+                    "username_or_email",
+                    "password"
+                ],
+                "properties": {
+                    "password": {
+                        "type": "string",
+                        "description": "Plaintext password."
+                    },
+                    "username_or_email": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Peer": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "info_hash",
+                    "ip",
+                    "port",
+                    "is_origin",
+                    "uploaded_bytes",
+                    "downloaded_bytes",
+                    "left_bytes",
+                    "behaviour",
+                    "created_at"
+                ],
+                "properties": {
+                    "agent": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "behaviour": {
+                        "$ref": "#/components/schemas/Behaviour"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "downloaded_bytes": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "id": {
+                        "$ref": "#/components/schemas/PeerId"
+                    },
+                    "info_hash": {
+                        "$ref": "#/components/schemas/InfoHash"
+                    },
+                    "ip": {
+                        "$ref": "#/components/schemas/IpNetwork"
+                    },
+                    "is_origin": {
+                        "type": "boolean"
+                    },
+                    "left_bytes": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "md5_hash": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "port": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "uploaded_bytes": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "PeerBin": {
+                "type": "string",
+                "format": "binary",
+                "description": "Peer binary representation.\nFirst 4 bytes are IP address, last 2 bytes are port.\nNetwork byte order (big endian).\nUsed when `compact=1` in announce url or if no `compact` is present.\nSee: <http://bittorrent.org/beps/bep_0023.html>"
+            },
+            "PeerDict": {
+                "type": "object",
+                "description": "Used when `compact=0` in announce url.",
+                "required": [
+                    "peer_id",
+                    "ip",
+                    "port"
+                ],
+                "properties": {
+                    "ip": {
+                        "$ref": "#/components/schemas/IpAddr"
+                    },
+                    "peer_id": {
+                        "$ref": "#/components/schemas/PeerId"
+                    },
+                    "port": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 0
+                    }
+                }
+            },
+            "PeerId": {
+                "type": "string",
+                "format": "binary"
+            },
+            "PeerStream": {
+                "oneOf": [
+                    {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PeerDict"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "format": "binary"
+                    }
+                ]
+            },
+            "RatingDTO": {
+                "type": "object",
+                "required": [
+                    "rating",
+                    "info_hash"
+                ],
+                "properties": {
+                    "info_hash": {
+                        "$ref": "#/components/schemas/InfoHash"
+                    },
+                    "rating": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                }
+            },
+            "RegisterDTO": {
+                "type": "object",
+                "description": "Data transfer object (DTO) used for registering.\nThis object is serialized and transfered from the frontend to the backend to register a new user.",
+                "required": [
+                    "username",
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "username": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Role": {
+                "type": "string",
+                "enum": [
+                    "Normie",
+                    "Verified",
+                    "Mod",
+                    "Admin"
+                ]
+            },
+            "SpeedLevel": {
+                "type": "string",
+                "enum": [
+                    "Lowspeed",
+                    "Mediumspeed",
+                    "Highspeed"
+                ]
+            },
+            "Torrent": {
+                "type": "object",
+                "required": [
+                    "info_hash",
+                    "raw",
+                    "length",
+                    "file_name",
+                    "is_freeleech",
+                    "leech_count",
+                    "seed_count",
+                    "completed_count",
+                    "speedlevel",
+                    "creation_date",
+                    "uploaded_at",
+                    "uploaded_by"
+                ],
+                "properties": {
+                    "announce_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "completed_count": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "created_by": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "creation_date": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "file_name": {
+                        "type": "string"
+                    },
+                    "genre": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Genre"
+                            }
+                        ],
+                        "nullable": true
+                    },
+                    "info_hash": {
+                        "$ref": "#/components/schemas/InfoHash"
+                    },
+                    "is_freeleech": {
+                        "type": "boolean"
+                    },
+                    "leech_count": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "length": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "modded_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "modded_by": {
+                        "type": "string",
+                        "format": "uuid",
+                        "nullable": true
+                    },
+                    "nfo": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "raw": {
+                        "type": "string",
+                        "format": "binary"
+                    },
+                    "seed_count": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "speedlevel": {
+                        "$ref": "#/components/schemas/SpeedLevel"
+                    },
+                    "uploaded_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "uploaded_by": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }
+            },
+            "TorrentPatchDTO": {
+                "type": "object",
+                "properties": {
+                    "genre": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Genre"
+                            }
+                        ],
+                        "nullable": true
+                    },
+                    "nfo": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
+            },
+            "TorrentPutDTO": {
+                "type": "object",
+                "required": [
+                    "torrent"
+                ],
+                "properties": {
+                    "torrent": {
+                        "$ref": "#/components/schemas/ActixFile"
+                    }
+                }
+            },
+            "TorrentRating": {
+                "type": "object",
+                "properties": {
+                    "average": {
+                        "type": "number",
+                        "format": "double",
+                        "nullable": true
+                    },
+                    "count": {
+                        "type": "integer",
+                        "format": "int64",
+                        "nullable": true
+                    }
+                }
+            },
+            "UserDTO": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "username",
+                    "first_login",
+                    "role",
+                    "behaviour",
+                    "is_enabled",
+                    "is_donator",
+                    "has_verified_email",
+                    "is_profile_private"
+                ],
+                "properties": {
+                    "avatar_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "behaviour": {
+                        "$ref": "#/components/schemas/Behaviour"
+                    },
+                    "first_login": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "has_verified_email": {
+                        "type": "boolean"
+                    },
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "The user's id"
+                    },
+                    "is_donator": {
+                        "type": "boolean"
+                    },
+                    "is_enabled": {
+                        "type": "boolean"
+                    },
+                    "is_profile_private": {
+                        "type": "boolean"
+                    },
+                    "last_login": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "role": {
+                        "$ref": "#/components/schemas/Role"
+                    },
+                    "username": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UserPatchDTO": {
+                "type": "object",
+                "required": [
+                    "username",
+                    "is_profile_private"
+                ],
+                "properties": {
+                    "avatar_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "is_profile_private": {
+                        "type": "boolean"
+                    },
+                    "username": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
